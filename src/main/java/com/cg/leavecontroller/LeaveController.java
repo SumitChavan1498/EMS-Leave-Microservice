@@ -1,10 +1,10 @@
 package com.cg.leavecontroller;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,14 +18,23 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cg.leavemodel.Leave;
 import com.cg.leaverepository.LeaveJPARepository;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RequestMapping({"/api"})
 @RestController
+@Api(value = "Leave Service using logger and swagger")
 public class LeaveController {
 
 	@Autowired
 	LeaveJPARepository repository;
+	
+	private static final Logger logger = LoggerFactory.getLogger(Leave.class);
+	
 
 //	@PostMapping(path = "/apply")
 //	public void applyLeave(@RequestBody Leave leave) {
@@ -36,9 +45,16 @@ public class LeaveController {
 //	}
 	
 	@PostMapping(path = "/apply")
+	@ApiOperation(value = "retrieveLimitsFromConfigurations", nickname = "retrieveLimitsFromConfigurations")
+    @ApiResponses(value = {
+               @ApiResponse(code = 200, message = "Success", response = Leave.class),
+               @ApiResponse(code = 500, message = "Failure", response = Leave.class)})
+	
 	public Leave applyLeave(@RequestBody Leave leave) {
 		
 		System.out.println("inside applyLeave() of Controller");
+		logger.info("inside applyLeave() of Controller of Leave-Service");
+		
 		if(leave.getUtilized()+leave.getNumberOfDays()<=12) {
 			leave.setStatus("Applied");
 			repository.save(leave);
@@ -49,7 +65,7 @@ public class LeaveController {
 		}
 	}
 	
-
+	
 	@GetMapping(path = "/status")
 	public List<Leave> retrieveStatus() {
 		System.out.println("inside retrieveStatus() of Controller");

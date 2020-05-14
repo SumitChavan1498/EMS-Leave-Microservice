@@ -1,6 +1,6 @@
 package com.cg.leavemodel;
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -36,12 +34,12 @@ public class Leave {
 	@Column(name = "Balance")
 	private int balance;
 
-	@Temporal(value = TemporalType.DATE)
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	//@Temporal(value = TemporalType.DATE)
+	//@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date dateOfApplication;
 
-	@Temporal(value = TemporalType.DATE)
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	//@Temporal(value = TemporalType.DATE)
+	//@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date dateOfLeave;
 	
 //	@Min(1)
